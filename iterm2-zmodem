@@ -37,7 +37,6 @@ ZCMD=$(
 # main
 if [[ $ZCMD = "" ]]; then
     cancel
-    echo
     
     notify "警告" "找不到 Z-Modem tools，是否安装lrzsz"
     exit
@@ -59,8 +58,7 @@ elif [[ $1 = "rz" ]]; then
 	
     notify "提示" "开始发送\n$DST"
 
-    $ZCMD -e -y
-    echo 
+    $ZCMD -E -e -b -y 2>&1
 
     notify "提示" "完成发送\n$DST"
 else
@@ -79,8 +77,8 @@ else
 
     notify "提示" "开始下载\n$SRC"
 
-    $ZCMD -e "$SRC"
-    echo 
+    $ZCMD -E -e -b "$SRC" 2>&1
+
 
     notify "提示" "完成下载\n$SRC"
 fi
