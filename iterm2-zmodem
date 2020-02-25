@@ -40,6 +40,7 @@ if [[ $ZCMD = "" ]]; then
     
     notify "警告" "找不到 Z-Modem tools，是否安装lrzsz"
     exit
+    
 elif [[ $1 = "rz" ]]; then
     # receive a file
     DST=`osascript \
@@ -55,30 +56,30 @@ elif [[ $1 = "rz" ]]; then
     fi
 
 	cd "$DST"
-	
     notify "提示" "开始发送\n$DST"
 
-    $ZCMD -E -e -b -y 2>&1
+    $ZCMD -v -E -e -b -y 2>&1 
+
 
     notify "提示" "完成发送\n$DST"
 else
     # 下载文件
     SRC=`osascript \
             -e "tell application \"iTerm\" to activate" \
-            -e "tell application \"iTerm\" to set thefile to choose file with prompt \"Choose a file to download\"" \
+            -e "tell application \"iTerm\" to set thefile to choose file with prompt \"Choose a file to upload\"" \
             -e "do shell script (\"echo \"&(quoted form of POSIX path of thefile as Unicode text)&\"\")"
     `
 
     if [[ $SRC = "" ]]; then
         cancel
-        notify "提示" "取消下载"
+        notify "提示" "取消接收"
         exit
     fi
 
-    notify "提示" "开始下载\n$SRC"
+    notify "提示" "开始接收\n$SRC"
 
-    $ZCMD -E -e -b "$SRC" 2>&1
+    $ZCMD  -v2 -E -e -b "$SRC" 2>&1
 
 
-    notify "提示" "完成下载\n$SRC"
+    notify "提示" "完成接收\n$SRC"
 fi
